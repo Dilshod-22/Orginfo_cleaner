@@ -1,3 +1,4 @@
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cheerio = require('cheerio'); 
@@ -19,13 +20,17 @@ app.use(bodyParser.text({
 
 
 app.use(bodyParser.urlencoded({ extended: true })); 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
 
- 
+
+
+app.get('/', (req, res) => {
+    res.send('server is running'); 
+});
+
+
 
 app.post('/takeInfo/:id', async(req, res) => {
-    const inn =  req.body.inn;
+    const inn =  req.params.id;
 
     const response = await fetch(`https://orginfo.uz/search/all/?q=${inn}`, {
       method: "GET",
@@ -56,7 +61,8 @@ app.post('/takeInfo/:id', async(req, res) => {
 
         const cleaned = extractedTexts.map(str => str.replace(/\s+/g, ' ').trim());
 
-        res.json(cleaned).end;
+        res.send(cleaned);
+
 
     } catch (error) {
         console.error("Cheerio tahlilida xato:", error);
