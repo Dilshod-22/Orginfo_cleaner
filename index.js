@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-
+ 
 
 app.post('/takeInfo/:id', async(req, res) => {
     const inn =  req.body.inn;
