@@ -7,6 +7,7 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ 
     extended: true,
@@ -58,8 +59,9 @@ app.post('/takeInfo/:id', async(req, res) => {
             const regex = /^.*?\s"/;
             const textY = '"' + textZ.replace(regex, '').trim(); 
 
-            const link = $(element).find('a').attr('href') || null;
-            const fullLink = link ? `https://orginfo.uz${link}` : null;
+            // mb- ichidagi a tegi role="button" bo'lgan
+            const link = $(element).find('div[class*="mb-"] a[role="button"]').attr('href') || null;
+            const fullLink = link ? `${link}` : null;
 
             let info = {
                 title: str.slice(0, firstSpaceIndex),     
@@ -81,9 +83,10 @@ app.post('/takeInfo/:id', async(req, res) => {
     }
 });
 
-app.post('/detailed/:id', async(req, res) => {
-    const inn =  req.params.id;
-    const response = await fetch(`https://orginfo.uz/organization/${inn}`, {
+app.post('/detailed/', async(req, res) => {
+    const linkDetail = await req.body.link_detail;
+   
+    const response = await fetch(`https://orginfo.uz${linkDetail}`, {
       method: "GET",
       headers: {
         "Cookie": "csrftoken=250sRYXaOpPr7JcLZVrqf3d26uuva9fx; sessionid=ogahatrialghix9x6r7nvydd5vnho65t",
