@@ -2,11 +2,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cheerio = require('cheerio'); 
-const path = require('path');
+
 const cors = require("cors");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ 
@@ -24,7 +24,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/', (req, res) => {
-    res.send('server is running'); 
+    res.json('server is running'); 
+});
+
+app.get('/test', (req, res) => {
+    res.json('server is running Test'); 
 });
 
 
